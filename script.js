@@ -1,10 +1,14 @@
-/* Must Have Features 😊
+/* Nice To Have Features 😏
 
+1. Add a filter which allows to display either "all todos", 
+  "open todos" or "done todos"
+2. Add a button which will delete all done todos
 
-3. Added todos can be marked as done 
-
-3. Step
-- add a checkbox
+1. Step
+- div with "all todos", 
+  "open todos" or "done todos"
+- checkbox to all 
+- click-event for each
 */
 
 // array of added todos

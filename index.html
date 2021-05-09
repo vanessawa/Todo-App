@@ -12,23 +12,33 @@
       <h1>Todo's</h1>
     </header>
     <main>
-      <h2>New Todo</h2>
-      <div class="input-line">
-        <label class="input-line-label" for="input-text">New Todo</label><br />
-        <input class="input-line-put" id="input-text" type="text" size="15" />
-        <button id="addBtn">add</button>
+      <section class="main-content">
+        <h2>New Todo</h2>
+        <div>
+          <ul>
+            <li>
+              All Todos
+              <span><input type="checkbox" id="allTodos" /></span>
+            </li>
+            <li>
+              Open Todos<span><input type="checkbox" id="openTodos" /></span>
+            </li>
+            <li>
+              Done Todos<span><input type="checkbox" id="doneTodos" /></span>
+            </li>
+          </ul>
+        </div>
+        <div class="input-line">
+          <label class="input-line-label" for="input-text">New Todo</label
+          ><br />
+          <input class="input-line-put" id="input-text" type="text" size="15" />
+          <button id="addBtn">add</button>
+        </div>
+      </section>
+      <div>
+        <ul id="todoList"></ul>
       </div>
-      <ul id="todoList"></ul>
     </main>
     <script src="script.js"></script>
   </body>
 </html>
-
-<!-- Must Have Features 😊
-
-Todos can be added using the add button
-List all added todos
-Added todos can be marked as done 
-
-- 
--->
