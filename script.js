@@ -1,14 +1,10 @@
 /* Must Have Features 😊
 
-1. Todos can be added using the add button
-2. List all added todos
+
 3. Added todos can be marked as done 
 
-2. Step
-- create list
-- create listItem by click-event
-- create array
-- add listItem content to array
+3. Step
+- add a checkbox
 */
 
 // array of added todos
@@ -34,4 +30,8 @@ function createTodoItem() {
 
   // add listElement to list
   todoList.appendChild(listItem);
+
+  const checkbox = document.createElement("input");
+  checkbox.setAttribute("type", "checkbox");
+  listItem.appendChild(checkbox);
 }
