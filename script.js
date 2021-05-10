@@ -1,11 +1,11 @@
 /* Nice To Have Features 😏
 
-1. Add a filter which allows to display either "all todos", 
-  "open todos" or "done todos"
 2. Add a button which will delete all done todos
 
-1. Step
-- click-event for each
+2. Step
+
+- add click-event to this button
+- function to delete the done todos 
 */
 
 // array of added todos
@@ -65,6 +65,16 @@ function showAllTodos() {
   }
 }
 
+function deleteDoneTodos() {
+  for (currentTodo of allTodos) {
+    if (currentTodo.checked == true) {
+      let doneElements = allTodos.indexOf(currentTodo.parentElement);
+      allTodos.splice(doneElements, 2);
+      currentTodo.parentElement.remove();
+    }
+  }
+}
+
 // global variables
 function init() {
   // click-event add todo
@@ -80,18 +90,10 @@ function init() {
 
   const doneTodosBtn = document.querySelector("#doneTodos");
   doneTodosBtn.addEventListener("click", showDoneTodos);
+
+  // click-event delete all done todos
+  const deleteDoneTodosBtn = document.querySelector("#deleteDoneTodos");
+  deleteDoneTodosBtn.addEventListener("click", deleteDoneTodos);
 }
 
 init();
-
-/*
-// click-event delete all done todos
-const deleteDoneTodos = document.querySelector("#deleteDoneTodos");
-deleteDoneTodos.addEventListener("click", deleteDoneTodos);
-
-function deleteDoneTodos() {
-for (currentTodo of allTodosBtn) {
-
-}
-}
-*/
