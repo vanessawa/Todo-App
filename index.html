@@ -18,21 +18,44 @@
           <ul>
             <li>
               All Todos
-              <span><input type="checkbox" id="allTodos" checked /></span>
+              <span
+                ><input
+                  type="radio"
+                  name="todo-state"
+                  value="all"
+                  id="allTodos"
+                  checked
+              /></span>
             </li>
             <li>
-              Open Todos<span><input type="checkbox" id="openTodos" /></span>
+              Open Todos<span
+                ><input
+                  type="radio"
+                  name="todo-state"
+                  value="open"
+                  id="openTodos"
+              /></span>
             </li>
             <li>
-              Done Todos<span><input type="checkbox" id="doneTodos" /></span>
+              Done Todos<span
+                ><input
+                  type="radio"
+                  name="todo-state"
+                  value="done"
+                  id="doneTodos"
+              /></span>
             </li>
           </ul>
           <button class="deleteDoneTodos">Delete all done Todos</button>
         </div>
         <div class="input-line">
-          <label class="input-line-label" for="input-text">New Todo</label
-          ><br />
-          <input class="input-line-put" id="input-text" type="text" size="15" />
+          <label class="input-line-label" for="input-text"></label><br />
+          <input
+            class="input-line-put"
+            id="input-text"
+            type="text"
+            placeholder="New Todo"
+          />
           <button id="addBtn">add</button>
         </div>
       </section>
