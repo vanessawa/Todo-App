@@ -5,3 +5,7 @@ header {
 main {
   border: 1px solid black;
 }
+
+.deleteDoneTodos {
+  margin-bottom: 15px;
+}
