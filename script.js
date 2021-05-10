@@ -43,8 +43,8 @@ function createTodoItem() {
 }
 
 // click-event select todos
-//const allTodosBtn = document.querySelector("#allTodos");
-//allTodosBtn.addEventListener("click", showAllTodos);
+const allTodosBtn = document.querySelector("#allTodos");
+allTodosBtn.addEventListener("click", showAllTodos);
 
 const openTodosBtn = document.querySelector("#openTodos");
 openTodosBtn.addEventListener("click", showOpenTodos);
@@ -56,6 +56,8 @@ function showOpenTodos() {
   for (currentTodo of allTodos) {
     if (currentTodo.checked == true) {
       currentTodo.parentElement.style.visibility = "hidden";
+      document.getElementById("allTodos").checked = false;
+      document.getElementById("doneTodos").checked = false;
     } else {
       currentTodo.parentElement.style.visibility = "visible";
     }
@@ -65,8 +67,18 @@ function showDoneTodos() {
   for (currentTodo of allTodos) {
     if (currentTodo.checked == false) {
       currentTodo.parentElement.style.visibility = "hidden";
+      document.getElementById("allTodos").checked = false;
+      document.getElementById("openTodos").checked = false;
     } else {
       currentTodo.parentElement.style.visibility = "visible";
     }
+  }
+}
+
+function showAllTodos() {
+  for (currentTodo of allTodos) {
+    currentTodo.parentElement.style.visibility = "visible";
+    document.getElementById("openTodos").checked = false;
+    document.getElementById("doneTodos").checked = false;
   }
 }
