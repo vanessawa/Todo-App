@@ -1,22 +1,57 @@
 /* Nice To Have Features 😏
 
-2. Add a button which will delete all done todos
-
-2. Step
-
-- add click-event to this button
-- function to delete the done todos 
 */
 
 // array of added todos
-const allTodos = [];
+const allTodos = new Array();
+
+class Todo {
+  constructor(description, status) {
+    this.description = description;
+    this.done = status;
+    //allTodos.push(description, status);
+  }
+}
+
+// get input-text of currentTodo
+const currentTodo = document.querySelector("#input-text");
+document.querySelector("#input-text").value = "";
+
+const newtodo = new Todo(currentTodo, false);
 
 // create todoItem
 function createTodoItem() {
-  // get input-text of currentTodo
-  const currentTodo = document.querySelector("#input-text").value;
-  document.querySelector("#input-text").value = "";
+  const newTodoText = currentTodo.value;
+  console.log(newTodoText);
+  const newTodo = {
+    todo: newTodoText,
+    done: false,
+  };
 
+  currentTodo.value = "";
+
+  // select todoList for adding new todo
+  const todoList = document.querySelector("#todoList");
+
+  // create new listItem
+  const listItem = document.createElement("li");
+
+  listItem.todo = newTodo;
+
+  //listItem.innerText = newTodoText;
+
+  // add text to listItem
+  listItem.appendChild(document.createTextNode(newTodoText));
+
+  // add checkbox to listItem
+  const checkbox = document.createElement("input");
+  checkbox.setAttribute("type", "checkbox");
+  listItem.appendChild(checkbox);
+
+  todoList.appendChild(listItem);
+}
+
+/*
   // select todoList for adding new todo
   const todoList = document.querySelector("#todoList");
 
@@ -32,12 +67,13 @@ function createTodoItem() {
   // add checkbox to listItem
   const checkbox = document.createElement("input");
   checkbox.setAttribute("type", "checkbox");
-  listItem.appendChild(checkbox);
+  listItem.appendChild(checkbox);*/
 
-  // add items to array
-  allTodos.push(listItem);
-  allTodos.push(checkbox);
-}
+// add items to array
+//   allTodos.push({
+//     content: currentTodo,
+//     status: "open",
+//   });
 
 function showOpenTodos() {
   for (currentTodo of allTodos) {
