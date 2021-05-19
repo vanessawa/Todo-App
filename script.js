@@ -1,126 +1,110 @@
-/* Nice To Have Features 😏
-
-*/
-
-// array of added todos
-const allTodos = new Array();
-
 class Todo {
   constructor(description, status) {
     this.description = description;
     this.done = status;
-    allTodos.push(description, status);
   }
 }
 
-// console sagt todoInput is not defined. Ist aber in function init() angelegt
-const newTodo = new Todo(todoInput, false);
+class TodoApp {
+  //allTodos = new Array();
 
-// create todoItem
-function createTodoItem() {
-  const newTodoText = todoInput.value;
-  console.log(newTodoText);
-  const newTodo = {
-    todo: newTodoText,
-    done: false,
-  };
+  constructor() {
+    const addBtn = document.querySelector("#addBtn");
+    addBtn.addEventListener("click", this.createTodoElement);
+    // ergibt dasselbe wie ~ allTodos = new Array() ~
+    this.allTodos = new Array();
 
-  todoInput.value = "";
+    // Click Event für show open Todos
+    const openTodosBtn = document.querySelector("#openTodos");
+    openTodosBtn.addEventListener("change", this.showOpenTodos);
 
-  // create new listItem
-  const listItem = document.createElement("li");
+    // Click Event für show done Todos
+    const doneTodosBtn = document.querySelector("#doneTodos");
+    doneTodosBtn.addEventListener("change", this.showDoneTodos);
 
-  listItem.todo = newTodo;
+    // Click Event für show All Todos
+    const allTodosBtn = document.querySelector("#allTodos");
+    allTodosBtn.addEventListener("change", this.showAllTodos);
 
-  //listItem.innerText = newTodoText;
+    // click-event delete all done todos
+    const deleteDoneTodosBtn = document.querySelector("#deleteDoneTodos");
+    deleteDoneTodosBtn.addEventListener("click", this.deleteDoneTodos);
 
-  // add text to listItem
-  listItem.appendChild(document.createTextNode(newTodoText));
+    // click Event change style of done Todos
+    const todoList = document.querySelector("#todoList");
+    todoList.addEventListener("change", this.changeTodoStyle);
+  }
 
-  // add checkbox to listItem
-  const checkbox = document.createElement("input");
-  checkbox.setAttribute("type", "checkbox");
-  listItem.appendChild(checkbox);
+  createTodoElement() {
+    const todoInputElem = document.querySelector("#todo-input");
+    const newTodoText = todoInputElem.value;
+    const todoObj = new Todo(newTodoText, false);
+    // select todoList for adding new todo
+    const todoList = document.querySelector("#todoList");
 
-  todoList.appendChild(listItem);
-}
+    // Name wird zurück gesetzt
+    todoInputElem.value = "";
 
-// noch nicht an Class angepasst
-function showOpenTodos() {
-  for (todoInput of allTodos) {
-    if (todoInput.checked == true) {
-      todoInput.parentElement.style.display = "none";
+    // Listen element wird creiert
+    const listItem = document.createElement("li");
+    listItem.todo = newTodoText;
+
+    // add text to listItem
+    listItem.appendChild(document.createTextNode(newTodoText));
+
+    // add checkbox to listItem
+    const checkbox = document.createElement("input");
+    checkbox.setAttribute("type", "checkbox");
+    listItem.appendChild(checkbox);
+
+    todoList.appendChild(listItem);
+  }
+
+  showOpenTodos() {
+    const allCheckboxes = document.querySelectorAll("#todoList input");
+    for (let todoCheckbox of allCheckboxes) {
+      if (todoCheckbox.checked == true) {
+        todoCheckbox.parentElement.style.display = "none";
+      } else {
+        todoCheckbox.parentElement.style.display = "block";
+      }
+    }
+  }
+
+  showDoneTodos() {
+    const allCheckboxes = document.querySelectorAll("#todoList input");
+    for (let todoCheckbox of allCheckboxes) {
+      if (todoCheckbox.checked === true) {
+        todoCheckbox.parentElement.style.display = "block";
+      } else {
+        todoCheckbox.parentElement.style.display = "none";
+      }
+    }
+  }
+
+  showAllTodos() {
+    const allCheckboxes = document.querySelectorAll("#todoList input");
+    for (let todoCheckbox of allCheckboxes) {
+      todoCheckbox.parentElement.style.display = "block";
+    }
+  }
+
+  deleteDoneTodos() {
+    const allCheckboxes = document.querySelectorAll("#todoList input");
+    for (let todoCheckbox of allCheckboxes) {
+      if (todoCheckbox.checked === true) {
+        todoCheckbox.parentElement.remove();
+      }
+    }
+  }
+
+  changeTodoStyle(e) {
+    if (e.target.checked === true) {
+      e.target.parentElement.style.textDecoration = "line-through";
     } else {
-      todoInput.parentElement.style.display = "block";
+      e.target.parentElement.style.textDecoration = "none";
     }
   }
 }
 
-// versucht an Class anzupassen
-function showDoneTodos() {
-  for (let li of todoList.children) {
-    const checkbox = li.querySelector('input[type="checkbox"]');
-    const isChecked = checkbox.checked;
-    if (isChecked === true) {
-      todoInput.parentElement.style.display = "none";
-    } else {
-      todoInput.parentElement.style.display = "block";
-    }
-  }
-}
-
-// noch nicht an Class angepasst
-function showAllTodos() {
-  for (todoInput of allTodos) {
-    todoInput.parentElement.style.display = "block";
-  }
-}
-
-function deleteDoneTodos() {
-  for (todoInput of allTodos) {
-    if (todoInput.checked == true) {
-      let doneElements = allTodos.indexOf(todoInput.parentElement);
-      allTodos.splice(doneElements, 2);
-      todoInput.parentElement.remove();
-    }
-  }
-}
-
-todoList.addEventListener("change", changeTodoStyle);
-function changeTodoStyle(e) {
-  if (e.target.checked === true) {
-    e.target.parentElement.style.textDecoration = "line-through";
-  } else {
-    e.target.parentElement.style.textDecoration = "none";
-  }
-}
-
-// global variables
-function init() {
-  // click-event add todo
-  const addBtn = document.querySelector("#addBtn");
-  addBtn.addEventListener("click", createTodoItem);
-
-  // click-event select todos
-  const allTodosBtn = document.querySelector("#allTodos");
-  allTodosBtn.addEventListener("change", showAllTodos);
-
-  const openTodosBtn = document.querySelector("#openTodos");
-  openTodosBtn.addEventListener("change", showOpenTodos);
-
-  const doneTodosBtn = document.querySelector("#doneTodos");
-  doneTodosBtn.addEventListener("change", showDoneTodos);
-
-  // click-event delete all done todos
-  const deleteDoneTodosBtn = document.querySelector("#deleteDoneTodos");
-  deleteDoneTodosBtn.addEventListener("click", deleteDoneTodos);
-
-  // get input-text of todoInput
-  const todoInput = document.querySelector("#todo-input");
-  document.querySelector("#todo-input").value = "";
-
-  // select todoList for adding new todo
-  const todoList = document.querySelector("#todoList");
-}
-
-init();
+const myFirstTodoApp = new TodoApp();
