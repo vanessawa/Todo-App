@@ -1,3 +1,6 @@
+// Add a feature that allows to add todos when pressing enter in the textbox
+//
+
 class Todo {
   constructor(description, status) {
     this.description = description;
@@ -11,6 +14,10 @@ class TodoApp {
   constructor() {
     const addBtn = document.querySelector("#addBtn");
     addBtn.addEventListener("click", this.createTodoElement);
+
+    const inputLine = document.querySelector("#todo-input");
+    inputLine.addEventListener("keypress", this.addTodoByEnter);
+
     // ergibt dasselbe wie ~ allTodos = new Array() ~
     this.allTodos = new Array();
 
@@ -58,6 +65,33 @@ class TodoApp {
     listItem.appendChild(checkbox);
 
     todoList.appendChild(listItem);
+  }
+
+  addTodoByEnter(e) {
+    if (e.key === "Enter") {
+      const todoInputElem = document.querySelector("#todo-input");
+      const newTodoText = todoInputElem.value;
+      const todoObj = new Todo(newTodoText, false);
+      // select todoList for adding new todo
+      const todoList = document.querySelector("#todoList");
+
+      // Name wird zurück gesetzt
+      todoInputElem.value = "";
+
+      // Listen element wird creiert
+      const listItem = document.createElement("li");
+      listItem.todo = newTodoText;
+
+      // add text to listItem
+      listItem.appendChild(document.createTextNode(newTodoText));
+
+      // add checkbox to listItem
+      const checkbox = document.createElement("input");
+      checkbox.setAttribute("type", "checkbox");
+      listItem.appendChild(checkbox);
+
+      todoList.appendChild(listItem);
+    }
   }
 
   showOpenTodos() {
