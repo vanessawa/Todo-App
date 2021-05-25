@@ -39,40 +39,47 @@ class TodoApp {
     // click Event change style of done Todos
     const todoList = document.querySelector("#todoList");
     todoList.addEventListener("change", this.addCheckboxState);
+
+    this.loadFromLocalStorage();
   }
 
   createTodoElement = () => {
     const todoInputElem = document.querySelector("#todo-input");
     const newTodoText = todoInputElem.value;
+    // Text wird zurück gesetzt
+    todoInputElem.value = "";
 
     if (newTodoText.length < 5) {
       alert("you have to enter at least 5 chars!");
     } else {
-      const todoObj = new Todo(newTodoText, false);
-      // select todoList for adding new todo
-      const todoList = document.querySelector("#todoList");
-
-      // Text wird zurück gesetzt
-      todoInputElem.value = "";
-
-      // Listen element wird creiert
-      const listItem = document.createElement("li");
-      listItem.todo = todoObj;
-
-      // add text to listItem
-      listItem.appendChild(document.createTextNode(newTodoText));
-
-      // add checkbox to listItem
-      const checkbox = document.createElement("input");
-      checkbox.setAttribute("type", "checkbox");
-      listItem.appendChild(checkbox);
-
-      todoList.appendChild(listItem);
-
+      const todoObj = this.renderTodo(newTodoText, false);
       this.allTodos.push(todoObj);
 
       this.storeInLocalStorage();
     }
+  };
+
+  // Todo: refactor accept a todo as parameter
+  // render methode die alles löscht und neu darstellt
+  renderTodo = (todoText, status) => {
+    const todoObj = new Todo(todoText, status);
+    // select todoList for adding new todo
+    const todoList = document.querySelector("#todoList");
+
+    // Listen element wird creiert
+    const listItem = document.createElement("li");
+    listItem.todo = todoObj;
+
+    // add text to listItem
+    listItem.appendChild(document.createTextNode(todoText));
+
+    // add checkbox to listItem
+    const checkbox = document.createElement("input");
+    checkbox.setAttribute("type", "checkbox");
+    listItem.appendChild(checkbox);
+
+    todoList.appendChild(listItem);
+    return todoObj;
   };
 
   // Arrow-Function nötig um andere Methode hier aufzurufen, da "this" sonst nicht greift.
@@ -89,13 +96,13 @@ class TodoApp {
 
     currentTodo.done = todoState;
 
-    this.storeInLocalStorage();
-
     if (todoState === true) {
       e.target.parentElement.style.textDecoration = "line-through";
     } else {
       e.target.parentElement.style.textDecoration = "none";
     }
+
+    this.storeInLocalStorage();
   };
 
   showOpenTodos = () => {
@@ -160,13 +167,16 @@ class TodoApp {
     };
   };
 
-  storeInLocalStorage() {
+  storeInLocalStorage = () => {
     localStorage.setItem("todos", JSON.stringify(this.allTodos));
-  }
+  };
 
-  loadFromLocalStorage() {
-    const arrOut = JSON.parse(localStorage.getItem("arr"));
-  }
+  loadFromLocalStorage = () => {
+    this.allTodos = JSON.parse(localStorage.getItem("todos"));
+    this.allTodos.forEach((todoObj) =>
+      this.renderTodo(todoObj.description, todoObj.done)
+    );
+  };
 }
 
 const myFirstTodoApp = new TodoApp();
