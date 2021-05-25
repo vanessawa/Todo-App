@@ -38,10 +38,10 @@ class TodoApp {
 
     // click Event change style of done Todos
     const todoList = document.querySelector("#todoList");
-    todoList.addEventListener("change", this.changeTodoStyle);
+    todoList.addEventListener("change", this.addCheckboxState);
   }
 
-  createTodoElement() {
+  createTodoElement = () => {
     const todoInputElem = document.querySelector("#todo-input");
     const newTodoText = todoInputElem.value;
 
@@ -52,12 +52,12 @@ class TodoApp {
       // select todoList for adding new todo
       const todoList = document.querySelector("#todoList");
 
-      // Name wird zurück gesetzt
+      // Text wird zurück gesetzt
       todoInputElem.value = "";
 
       // Listen element wird creiert
       const listItem = document.createElement("li");
-      listItem.todo = newTodoText;
+      listItem.todo = todoObj;
 
       // add text to listItem
       listItem.appendChild(document.createTextNode(newTodoText));
@@ -68,8 +68,12 @@ class TodoApp {
       listItem.appendChild(checkbox);
 
       todoList.appendChild(listItem);
+
+      this.allTodos.push(todoObj);
+
+      this.storeInLocalStorage();
     }
-  }
+  };
 
   // Arrow-Function nötig um andere Methode hier aufzurufen, da "this" sonst nicht greift.
   addTodoByEnter = (e) => {
@@ -78,7 +82,24 @@ class TodoApp {
     }
   };
 
-  showOpenTodos() {
+  addCheckboxState = (e) => {
+    const todoState = e.target.checked;
+
+    const currentTodo = e.target.parentElement.todo;
+
+    currentTodo.done = todoState;
+
+    this.storeInLocalStorage();
+
+    if (todoState === true) {
+      e.target.parentElement.style.textDecoration = "line-through";
+    } else {
+      e.target.parentElement.style.textDecoration = "none";
+    }
+  };
+
+  showOpenTodos = () => {
+    const todoObj = new Todo();
     const allCheckboxes = document.querySelectorAll("#todoList input");
     for (let todoCheckbox of allCheckboxes) {
       if (todoCheckbox.checked == true) {
@@ -87,41 +108,64 @@ class TodoApp {
         todoCheckbox.parentElement.style.display = "block";
       }
     }
-  }
 
-  showDoneTodos() {
+    this.allTodos.push(todoObj);
+    this.storeInLocalStorage();
+  };
+
+  showDoneTodos = () => {
+    const todoObj = new Todo();
     const allCheckboxes = document.querySelectorAll("#todoList input");
     for (let todoCheckbox of allCheckboxes) {
       if (todoCheckbox.checked === true) {
+        todoCheckbox.value("true");
         todoCheckbox.parentElement.style.display = "block";
       } else {
         todoCheckbox.parentElement.style.display = "none";
       }
     }
-  }
 
-  showAllTodos() {
+    this.storeInLocalStorage();
+  };
+
+  showAllTodos = () => {
+    const todoObj = new Todo();
     const allCheckboxes = document.querySelectorAll("#todoList input");
     for (let todoCheckbox of allCheckboxes) {
       todoCheckbox.parentElement.style.display = "block";
     }
-  }
+    this.storeInLocalStorage();
+  };
 
-  deleteDoneTodos() {
+  deleteDoneTodos = () => {
+    const todoObj = new Todo();
     const allCheckboxes = document.querySelectorAll("#todoList input");
     for (let todoCheckbox of allCheckboxes) {
       if (todoCheckbox.checked === true) {
         todoCheckbox.parentElement.remove();
       }
+      this.storeInLocalStorage();
     }
+
+    removeDoneTodosFromArray = () => {
+      const todoObj = new Todo();
+      const allCheckboxes = document.querySelectorAll("#todoList input");
+      for (let i = 0; i != true; i++) {
+        if (this.allTodos[i] === true) {
+          this.allTodos.splice(i, 1);
+        }
+      }
+
+      this.storeInLocalStorage();
+    };
+  };
+
+  storeInLocalStorage() {
+    localStorage.setItem("todos", JSON.stringify(this.allTodos));
   }
 
-  changeTodoStyle(e) {
-    if (e.target.checked === true) {
-      e.target.parentElement.style.textDecoration = "line-through";
-    } else {
-      e.target.parentElement.style.textDecoration = "none";
-    }
+  loadFromLocalStorage() {
+    const arrOut = JSON.parse(localStorage.getItem("arr"));
   }
 }
 
